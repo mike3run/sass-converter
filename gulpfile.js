@@ -1,9 +1,8 @@
 'use strict';
-
-const gulp              = require('gulp');
-const browserSync       = require('browser-sync');
-const requireDir        = require('require-dir');
-const config            = require('./gulp/gulp.config');
+const gulp = require('gulp');
+const browserSync = require('browser-sync');
+const requireDir = require('require-dir');
+const config = require('./gulp/gulp.config');
 
 // Let's require all the tasks inside gulp/tasks
 requireDir('./gulp/tasks', {
@@ -15,7 +14,6 @@ gulp.task('build', gulp.series(
   'clean',
   'svg',
   'pug',
-  'fonts',
   'sass',
   'scripts',
   'imagemin',
@@ -49,13 +47,9 @@ gulp.task('watch', done => {
   gulp.watch('src/sass/**/*', gulp.series('sass', reload));
   gulp.watch('src/scripts/**/*', gulp.series('scripts', reload));
   gulp.watch('src/assets/**/*', gulp.series('assets', reload));
-  gulp.watch('src/fonts/**/*', gulp.series('fonts', reload));
   done();
 });
 
 gulp.task('serve', gulp.parallel('browser-sync', 'watch'));
 
 gulp.task('default', gulp.series('build', 'serve'));
-
-// Task for deploying to GhPages
-gulp.task('deploy', gulp.series('build', 'deploy:ghPages', 'clean'));
